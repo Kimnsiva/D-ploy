@@ -1,0 +1,1661 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset=utf8>
+  <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <style>
+    :root {
+      color-scheme: light;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff;
+      color: #000
+    }
+
+    img {
+      max-width: 100%
+    }
+
+    [hidden]:not([hidden=until-found i]) {
+      display: none !important
+    }
+  </style>
+</head>
+
+<body>
+  <title>Hello D-ploy</title>
+  <meta name="claude:viewport-fit-sides" content="cover">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+  <style>
+    /* Layout: one full-height deck. Five click-through slides; slide 3 splits into copy (left) and an animated scene card (right), stacked on narrow screens. A segmented rail at the bottom shows every step. */
+    :root {
+      --bg: #EEF1F5;
+      --surface: #FFFFFF;
+      --ink: #11151B;
+      --muted: #586272;
+      --line: #D3D9E2;
+      --accent: #1B55F0;
+      --accent-soft: #DCE6FF;
+      --signal: #F2622F;
+      --ok: #16A36E;
+      --scene-bg: #E3EAF5;
+      --floor: #C7D1E1;
+      --panel: #FFFFFF;
+      --panel-line: #B3BFD2;
+      --desk: #8FA0BA;
+      --desk-dark: #70829F;
+      --screen: #0E1522;
+      --blazer: #1E232B;
+      --shirt: #F8FAFC;
+      --hair: #171A21;
+      --on-accent: #FFFFFF;
+      --glass: rgba(27, 85, 240, .16);
+      --f-display: 'Familjen Grotesk', 'Helvetica Neue', Arial, sans-serif;
+      --f-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+      --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0C1017;
+        --surface: #141A24;
+        --ink: #E9EDF3;
+        --muted: #9AA5B5;
+        --line: #273041;
+        --accent: #6E97FF;
+        --accent-soft: #1B2A52;
+        --signal: #FF8456;
+        --ok: #3DD598;
+        --scene-bg: #151C2A;
+        --floor: #0E141F;
+        --panel: #1E2738;
+        --panel-line: #34425C;
+        --desk: #3A4A66;
+        --desk-dark: #2B3750;
+        --screen: #070B12;
+        --blazer: #2E384A;
+        --shirt: #EEF2F8;
+        --hair: #2B3343;
+        --on-accent: #0A1022;
+        --glass: rgba(110, 151, 255, .22);
+        color-scheme: dark
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #0C1017;
+      --surface: #141A24;
+      --ink: #E9EDF3;
+      --muted: #9AA5B5;
+      --line: #273041;
+      --accent: #6E97FF;
+      --accent-soft: #1B2A52;
+      --signal: #FF8456;
+      --ok: #3DD598;
+      --scene-bg: #151C2A;
+      --floor: #0E141F;
+      --panel: #1E2738;
+      --panel-line: #34425C;
+      --desk: #3A4A66;
+      --desk-dark: #2B3750;
+      --screen: #070B12;
+      --blazer: #2E384A;
+      --shirt: #EEF2F8;
+      --hair: #2B3343;
+      --on-accent: #0A1022;
+      --glass: rgba(110, 151, 255, .22);
+      color-scheme: dark
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f-body);
+      font-size: 16px;
+      line-height: 1.5;
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+      overflow-x: hidden
+    }
+
+    button {
+      font: inherit;
+      color: inherit
+    }
+
+    .deck {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-block: 16px
+    }
+
+    .stage {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      cursor: pointer
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      overflow: auto;
+      overflow-x: hidden
+    }
+
+    .slide.on {
+      display: grid;
+      animation: slide-in .5s ease both
+    }
+
+    /* placeholder slides */
+    .ph.on {
+      grid-template-columns: 1fr
+    }
+
+    .ph-frame {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 100%;
+      border: 1.5px dashed var(--line);
+      border-radius: 20px;
+      background: var(--surface);
+      padding: clamp(18px, 3vw, 36px)
+    }
+
+    .ph-tag {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted)
+    }
+
+    .ph-foot {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap
+    }
+
+    .ph-num {
+      font-family: var(--f-display);
+      font-weight: 700;
+      font-size: clamp(80px, 16vw, 200px);
+      line-height: .8;
+      color: var(--line);
+      letter-spacing: -.04em
+    }
+
+    .ph-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    /* slide 1 */
+    .s1.on {
+      grid-template-columns: 1fr;
+      grid-auto-rows: min-content;
+      gap: clamp(18px, 3vw, 40px);
+      align-content: center;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--surface);
+      padding: clamp(20px, 3.5vw, 44px)
+    }
+
+    .s1-visual {
+      order: -1;
+      display: flex;
+      justify-content: center;
+      min-width: 0
+    }
+
+    .s1-photo {
+      width: min(100%, 420px);
+      max-height: min(62vh, 420px);
+      aspect-ratio: 1/1;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--scene-bg);
+      box-shadow: 0 12px 32px -12px rgba(17, 21, 27, .14)
+    }
+
+    .s1-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 65%;
+      display: block
+    }
+
+    .s1-text>* {
+      animation: rise .55s ease both
+    }
+
+    .s1-text>*:nth-child(2) {
+      animation-delay: .06s
+    }
+
+    .s1-text>*:nth-child(3) {
+      animation-delay: .12s
+    }
+
+    .s1-text>*:nth-child(4) {
+      animation-delay: .18s
+    }
+
+    .s1-text>*:nth-child(5) {
+      animation-delay: .24s
+    }
+
+    .s1-text>*:nth-child(6) {
+      animation-delay: .3s
+    }
+
+    .s1-text h2 {
+      font-family: var(--f-display);
+      font-weight: 600;
+      font-size: clamp(30px, 5vw, 60px);
+      line-height: 1.02;
+      margin: 10px 0 16px;
+      letter-spacing: -.02em;
+      text-wrap: balance
+    }
+
+    .s1-text p {
+      max-width: 46ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.7vw, 20px)
+    }
+
+    .s1-text p+p {
+      margin-top: 10px
+    }
+
+    .s1-text strong {
+      color: var(--ink);
+      font-weight: 600
+    }
+
+    @media (min-width:900px) {
+      .s1.on {
+        grid-template-columns: 6fr 5fr;
+        align-items: center
+      }
+
+      .s1-visual {
+        order: 0
+      }
+    }
+
+    /* hobbies collage */
+    .hobby-grid {
+      width: 100%;
+      max-height: min(64vh, 430px);
+      aspect-ratio: 4/3;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px
+    }
+
+    .hobby-card {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--scene-bg);
+      margin: 0
+    }
+
+    .hobby-card.tall {
+      grid-row: span 2
+    }
+
+    .hobby-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .35s ease
+    }
+
+    .hobby-card:hover img {
+      transform: scale(1.04)
+    }
+
+    @media (min-width:900px) {
+      .s1.s-hobbies.on {
+        grid-template-columns: 5fr 6.5fr
+      }
+    }
+
+    /* slide 4 closing */
+    .s4.on {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg,
+          rgba(237, 41, 57, .09) 0%, rgba(237, 41, 57, .09) 16.66%,
+          rgba(255, 255, 255, .55) 16.66%, rgba(255, 255, 255, .55) 33.33%,
+          rgba(27, 85, 240, .10) 33.33%, rgba(27, 85, 240, .10) 66.66%,
+          rgba(255, 255, 255, .55) 66.66%, rgba(255, 255, 255, .55) 83.33%,
+          rgba(237, 41, 57, .09) 83.33%, rgba(237, 41, 57, .09) 100%),
+        var(--surface)
+    }
+
+    .wai-bow {
+      transform-box: fill-box;
+      transform-origin: 50% 85%;
+      animation: wai-bow 3.2s ease-in-out infinite
+    }
+
+    .wai-hands {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      animation: wai-hands 3.2s ease-in-out infinite
+    }
+
+    .wave-hand {
+      transform-box: fill-box;
+      transform-origin: 20% 85%;
+      animation: wave-hand 1.8s ease-in-out infinite
+    }
+
+    @keyframes wai-bow {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg)
+      }
+
+      45%,
+      55% {
+        transform: translateY(4px) rotate(-2.5deg)
+      }
+    }
+
+    @keyframes wai-hands {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      45%,
+      55% {
+        transform: translateY(-4px)
+      }
+    }
+
+    @keyframes wave-hand {
+
+      0%,
+      100% {
+        transform: rotate(-8deg)
+      }
+
+      50% {
+        transform: rotate(18deg)
+      }
+    }
+
+    /* slide 3 */
+    .s3.on {
+      grid-template-columns: 1fr;
+      grid-auto-rows: min-content;
+      gap: clamp(14px, 2.4vw, 32px);
+      align-content: start
+    }
+
+    .visual {
+      order: -1;
+      min-width: 0
+    }
+
+    .copy {
+      min-width: 0
+    }
+
+    @media (min-width:900px) {
+      .s3.on {
+        grid-template-columns: minmax(300px, 5fr) 7fr;
+        align-content: center;
+        align-items: center
+      }
+
+      .visual {
+        order: 0
+      }
+    }
+
+    .kick {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted)
+    }
+
+    .kick b {
+      color: var(--accent);
+      font-weight: 500
+    }
+
+    .stext>* {
+      animation: rise .55s ease both
+    }
+
+    .stext>*:nth-child(2) {
+      animation-delay: .06s
+    }
+
+    .stext>*:nth-child(3) {
+      animation-delay: .12s
+    }
+
+    .stext>*:nth-child(4) {
+      animation-delay: .18s
+    }
+
+    .stext h2 {
+      font-family: var(--f-display);
+      font-weight: 600;
+      font-size: clamp(30px, 5vw, 60px);
+      line-height: 1.02;
+      margin: 10px 0 14px;
+      letter-spacing: -.02em;
+      text-wrap: balance
+    }
+
+    .stext p {
+      max-width: 46ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(15px, 1.6vw, 19px)
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none
+    }
+
+    .chips li {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface)
+    }
+
+    .scene-card {
+      background: var(--scene-bg);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      aspect-ratio: 16/10;
+      width: 100%
+    }
+
+    .years {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      margin-top: 12px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .year {
+      border-top: 3px solid var(--line);
+      padding-top: 6px;
+      transition: color .3s, border-color .3s
+    }
+
+    .year.on {
+      border-color: var(--accent);
+      color: var(--ink)
+    }
+
+    /* rail */
+    .rail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px
+    }
+
+    .nav {
+      width: 40px;
+      height: 40px;
+      flex: none;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      cursor: pointer;
+      display: grid;
+      place-items: center
+    }
+
+    .nav:hover:not(:disabled) {
+      border-color: var(--accent)
+    }
+
+    .nav:disabled {
+      opacity: .35;
+      cursor: default
+    }
+
+    .nav:focus-visible,
+    .pill:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px
+    }
+
+    .pills {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0
+    }
+
+    .grp {
+      display: flex;
+      gap: 3px
+    }
+
+    .pill {
+      width: 16px;
+      height: 14px;
+      padding: 4px 0;
+      border: 0;
+      border-radius: 3px;
+      background: var(--line);
+      background-clip: content-box;
+      cursor: pointer;
+      transition: width .3s, background-color .3s
+    }
+
+    .pill.on {
+      width: 28px;
+      background-color: var(--accent)
+    }
+
+    .count {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--muted);
+      min-width: 78px;
+      text-align: right
+    }
+
+    @media (max-width:560px) {
+      .count {
+        display: none
+      }
+
+      .pills {
+        gap: 8px
+      }
+
+      .pill {
+        width: 12px
+      }
+
+      .pill.on {
+        width: 20px
+      }
+    }
+
+    /* illustration */
+    .scene {
+      display: none;
+      width: 100%;
+      height: 100%
+    }
+
+    .scene.on {
+      display: block
+    }
+
+    .mon {
+      fill: var(--screen);
+      stroke: var(--panel-line);
+      stroke-width: 3
+    }
+
+    .tb {
+      font-family: var(--f-body)
+    }
+
+    .tm {
+      font-family: var(--f-mono)
+    }
+
+    .td {
+      font-family: var(--f-display)
+    }
+
+    .eye {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: blink 5.5s infinite
+    }
+
+    .bob {
+      animation: bob 3.2s ease-in-out infinite
+    }
+
+    .led {
+      animation: ledk 1.4s ease-in-out infinite
+    }
+
+    .alert-dot {
+      animation: alert .9s steps(2, jump-none) infinite
+    }
+
+    .trace {
+      stroke-dasharray: 300;
+      animation: draw 3s linear infinite
+    }
+
+    .flow {
+      stroke-dasharray: 4 6;
+      animation: dash 1s linear infinite
+    }
+
+    .scroll {
+      animation: scroll 3.2s linear infinite
+    }
+
+    .pop {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      animation: pop .45s var(--d, 0s) both
+    }
+
+    .node {
+      animation: rise .5s var(--d, 0s) both
+    }
+
+    .swap-a {
+      animation: fadeout .4s 3.2s forwards
+    }
+
+    .swap-b {
+      animation: fadein .4s 3.4s both
+    }
+
+    .walk {
+      animation: walk 2.8s cubic-bezier(.2, .7, .2, 1) both
+    }
+
+    .door-l {
+      animation: doorl 1.2s .5s ease both
+    }
+
+    .door-r {
+      animation: doorr 1.2s .5s ease both
+    }
+
+    .paper {
+      animation: paper 2.4s ease-in-out infinite
+    }
+
+    .grow {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      animation: grow 2.4s ease-in-out var(--d, 0s) infinite alternate
+    }
+
+    @keyframes slide-in {
+      from {
+        opacity: 0;
+        transform: translateX(18px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @keyframes blink {
+
+      0%,
+      94%,
+      100% {
+        transform: scaleY(1)
+      }
+
+      97% {
+        transform: scaleY(.1)
+      }
+    }
+
+    @keyframes bob {
+      50% {
+        transform: translateY(-3px)
+      }
+    }
+
+    @keyframes ledk {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .25
+      }
+    }
+
+    @keyframes alert {
+      0% {
+        opacity: 1
+      }
+
+      100% {
+        opacity: .15
+      }
+    }
+
+    @keyframes draw {
+      from {
+        stroke-dashoffset: 300
+      }
+
+      to {
+        stroke-dashoffset: 0
+      }
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -20
+      }
+    }
+
+    @keyframes scroll {
+      to {
+        transform: translateY(-64px)
+      }
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(.6)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1)
+      }
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    @keyframes fadeout {
+      to {
+        opacity: 0
+      }
+    }
+
+    @keyframes walk {
+      from {
+        transform: translateX(-330px)
+      }
+
+      to {
+        transform: none
+      }
+    }
+
+    @keyframes doorl {
+      to {
+        transform: translateX(-78px)
+      }
+    }
+
+    @keyframes doorr {
+      to {
+        transform: translateX(78px)
+      }
+    }
+
+    @keyframes paper {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(10px)
+      }
+    }
+
+    @keyframes grow {
+      from {
+        transform: scaleY(.45)
+      }
+
+      to {
+        transform: scaleY(1)
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      * {
+        animation: none !important;
+        transition: none !important
+      }
+
+      .swap-a {
+        display: none
+      }
+
+      .door-l {
+        transform: translateX(-78px)
+      }
+
+      .door-r {
+        transform: translateX(78px)
+      }
+    }
+  </style>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <g id="bodyg">
+        <rect x="43" y="74" width="14" height="18" rx="5" style="fill:var(--skin-shade,#E2AA82)" />
+        <path d="M8 130C8 100 26 88 50 88C74 88 92 100 92 130Z" style="fill:var(--blazer)" />
+        <path d="M38 89L50 114L62 89Z" style="fill:var(--shirt)" />
+      </g>
+      <g id="face">
+        <circle class="eye" cx="41" cy="54" r="2.6" fill="#1F232A" />
+        <circle class="eye" cx="59" cy="54" r="2.6" fill="#1F232A" />
+        <path d="M43 64Q50 70 57 64" fill="none" stroke="#8B4A3C" stroke-width="2" stroke-linecap="round" />
+        <circle cx="35" cy="62" r="4" fill="#E58C7A" opacity=".28" />
+        <circle cx="65" cy="62" r="4" fill="#E58C7A" opacity=".28" />
+      </g>
+      <symbol id="pa" viewBox="0 0 100 130">
+        <use href="#bodyg" />
+        <ellipse cx="50" cy="52" rx="23" ry="26" style="fill:var(--skin,#F3CBA6)" />
+        <use href="#face" />
+        <path
+          d="M25 56C20 24 38 14 52 14C72 14 84 32 77 58L77 66C74 70 70 70 69 66C70 50 64 38 50 37C37 38 31 50 31 66C30 70 26 70 24 66Z"
+          style="fill:var(--hair)" />
+      </symbol>
+      <symbol id="pb" viewBox="0 0 100 130">
+        <use href="#bodyg" />
+        <ellipse cx="50" cy="52" rx="23" ry="26" style="fill:var(--skin,#F3CBA6)" />
+        <use href="#face" />
+        <path d="M26 52C23 22 40 15 52 15C68 15 78 26 74 52C72 42 66 34 52 33C40 33 31 40 26 52Z"
+          style="fill:var(--hair)" />
+      </symbol>
+      <symbol id="pc" viewBox="0 0 100 130">
+        <path d="M22 52C18 22 38 12 52 12C76 12 86 32 80 70L82 104L18 104L20 70Z" style="fill:var(--hair)" />
+        <use href="#bodyg" />
+        <ellipse cx="50" cy="52" rx="23" ry="26" style="fill:var(--skin,#F3CBA6)" />
+        <use href="#face" />
+        <path d="M26 50C26 26 40 20 52 20C66 20 76 28 74 50C68 38 60 32 50 34C40 34 32 40 26 50Z"
+          style="fill:var(--hair)" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="deck" id="deck">
+    <main class="stage" id="stage" aria-live="polite">
+
+      <section class="slide s1" id="slide-1" data-slide="1" aria-label="Slide 1, opening">
+        <div class="copy">
+          <div class="s1-text">
+            <div class="kick"><b>Slide 1</b> · Opening</div>
+            <h2>Hi everyone! Nice to meet you.</h2>
+            <p>My name is <strong>Sivaporn Phumimit</strong>, but you can call me <strong>Kim</strong>.</p>
+            <p>I live in Bangkok, Thailand.</p>
+            <p>Happy to be part of the team!</p>
+          </div>
+        </div>
+        <div class="s1-visual">
+          <div class="s1-photo">
+            <img src="profile.jpeg" alt="Sivaporn Phumimit (Kim)">
+          </div>
+        </div>
+      </section>
+
+      <section class="slide s3" id="slide-2" data-slide="2" aria-label="Slide 2, work story">
+        <div class="copy">
+          <div class="stext" data-scene="1">
+            <div class="kick"><b>Scene 1 / 6</b> · 2019 – 2021</div>
+            <h2>My First IT Job</h2>
+            <p>I started as a system operator at KBTG, watching batch jobs and the network behind ATMs, EDC terminals,
+              branches and kiosks. The shifts ran 24/7.</p>
+            <ul class="chips">
+              <li>NOC</li>
+              <li>Batch jobs</li>
+              <li>24/7 shifts</li>
+            </ul>
+          </div>
+          <div class="stext" data-scene="2" hidden>
+            <div class="kick"><b>Scene 2 / 6</b> · 2021</div>
+            <h2>Moving into IT Support</h2>
+            <p>I moved from watching screens to helping the people behind them. Fixing a problem and seeing a colleague
+              get back to work is still my favorite part of the job.</p>
+            <ul class="chips">
+              <li>Troubleshooting</li>
+              <li>Ticket support</li>
+              <li>Helping people</li>
+            </ul>
+          </div>
+          <div class="stext" data-scene="3" hidden>
+            <div class="kick"><b>Scene 3 / 6</b> · 2022 – 2024</div>
+            <h2>Cloud Experience</h2>
+            <p>At Cloud HM I supported Microsoft 365 and Azure AD users, ERP systems and remote staff, from device setup
+              to ticket-based incident fixes.</p>
+            <ul class="chips">
+              <li>Microsoft 365</li>
+              <li>Azure AD</li>
+              <li>ERP</li>
+            </ul>
+          </div>
+          <div class="stext" data-scene="4" hidden>
+            <div class="kick"><b>Scene 4 / 6</b> · 2024 – 2026</div>
+            <h2>On-Premise Experience</h2>
+            <p>At SMFL Leasing Thailand I was the primary IT support for 85+ users: Active Directory, shared folders,
+              Windows PCs, printers, onboarding and offboarding, and work with regional IT teams.</p>
+            <ul class="chips">
+              <li>Active Directory</li>
+              <li>Windows PCs</li>
+              <li>Hardware</li>
+            </ul>
+          </div>
+          <div class="stext" data-scene="5" hidden>
+            <div class="kick"><b>Scene 5 / 6</b> · 2026</div>
+            <h2>A New Chapter at D-ploy</h2>
+            <p>Now I am stepping into a modern, international office and starting the next chapter of my career.</p>
+            <ul class="chips">
+              <li>New team</li>
+              <li>New office</li>
+            </ul>
+          </div>
+          <div class="stext" data-scene="6" hidden>
+            <div class="kick"><b>Scene 6 / 6</b> · Next</div>
+            <h2>Learning Together</h2>
+            <p>I am looking forward to working with colleagues from different countries: joining meetings, sharing what
+              I know, and learning from everyone.</p>
+            <ul class="chips">
+              <li>Meetings</li>
+              <li>Sharing</li>
+              <li>Learning</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="visual">
+          <div class="scene-card">
+            <!-- Scene 1: monitoring room -->
+            <svg class="scene" data-scene="1" viewBox="0 0 640 400" role="img"
+              aria-label="Kim working as a system operator in a monitoring room, watching job charts, network status and alerts">
+              <rect width="640" height="400" fill="var(--scene-bg)" />
+              <clipPath id="cp3">
+                <rect x="440" y="62" width="150" height="82" />
+              </clipPath>
+              <rect class="mon" x="40" y="30" width="170" height="120" rx="8" />
+              <text class="tm" x="54" y="52" font-size="11" fill="#8FA0BD">BATCH JOBS</text>
+              <text class="tm" x="196" y="52" font-size="11" fill="#3DD598" text-anchor="end">OK</text>
+              <line x1="54" y1="138" x2="196" y2="138" stroke="#26324A" stroke-width="2" />
+              <polyline class="trace" points="54,128 80,110 104,118 128,88 152,98 178,72 198,80" fill="none"
+                stroke="#6E97FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              <rect class="mon" x="235" y="30" width="170" height="120" rx="8" />
+              <text class="tm" x="249" y="52" font-size="11" fill="#8FA0BD">ATM · EDC · KIOSK</text>
+              <g class="dots" data-cols="6" data-rows="3" data-x="256" data-y="80" data-step="25" data-alert="8"></g>
+              <rect class="mon" x="430" y="30" width="170" height="120" rx="8" />
+              <text class="tm" x="444" y="52" font-size="11" fill="#8FA0BD">ALERTS</text>
+              <text class="tm alert-dot" x="586" y="52" font-size="11" fill="#FF8456" text-anchor="end">1 OPEN</text>
+              <g clip-path="url(#cp3)">
+                <g class="scroll">
+                  <rect x="444" y="64" width="120" height="6" rx="3" fill="#2C3A58" />
+                  <rect x="444" y="80" width="84" height="6" rx="3" fill="#2C3A58" />
+                  <rect x="444" y="96" width="104" height="6" rx="3" fill="#FF8456" />
+                  <rect x="444" y="112" width="66" height="6" rx="3" fill="#2C3A58" />
+                  <rect x="444" y="128" width="120" height="6" rx="3" fill="#2C3A58" />
+                  <rect x="444" y="144" width="84" height="6" rx="3" fill="#2C3A58" />
+                  <rect x="444" y="160" width="104" height="6" rx="3" fill="#FF8456" />
+                  <rect x="444" y="176" width="66" height="6" rx="3" fill="#2C3A58" />
+                  <rect x="444" y="192" width="120" height="6" rx="3" fill="#2C3A58" />
+                  <rect x="444" y="208" width="84" height="6" rx="3" fill="#2C3A58" />
+                </g>
+              </g>
+              <rect x="40" y="172" width="126" height="34" rx="17" fill="var(--panel)" stroke="var(--panel-line)" />
+              <circle class="led" cx="60" cy="189" r="5" fill="var(--ok)" />
+              <text class="tm" x="74" y="194" font-size="13" fill="var(--ink)">NOC · 24/7</text>
+              <g class="bob">
+                <use href="#pa" x="265" y="175" width="110" height="143" />
+              </g>
+              <rect x="150" y="296" width="340" height="20" rx="5" fill="var(--desk)" />
+              <rect class="mon" x="164" y="252" width="76" height="46" rx="4" />
+              <polyline points="172,284 188,272 202,278 220,262 232,266" fill="none" stroke="#6E97FF" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <rect x="290" y="288" width="100" height="9" rx="3" fill="#2A3347" />
+              <rect x="440" y="272" width="18" height="24" rx="4" fill="var(--panel)" stroke="var(--panel-line)"
+                stroke-width="2" />
+              <rect y="316" width="640" height="84" fill="var(--floor)" />
+              <rect x="528" y="330" width="88" height="34" rx="7" fill="#18233A" stroke="var(--panel-line)"
+                stroke-width="1" />
+              <image href="work exp_logos/Logo-MFEC-More-04.png" x="538" y="335" width="68" height="24"
+                preserveAspectRatio="xMidYMid meet" />
+            </svg>
+
+            <!-- Scene 2: helping a colleague -->
+            <svg class="scene" data-scene="2" viewBox="0 0 640 400" role="img"
+              aria-label="Kim helping a colleague fix a VPN problem, the ticket changes from open to resolved" hidden>
+              <rect width="640" height="400" fill="var(--scene-bg)" />
+              <rect x="36" y="34" width="176" height="76" rx="10" fill="var(--panel)" stroke="var(--panel-line)" />
+              <text class="tm" x="50" y="56" font-size="11" fill="var(--muted)">TICKET #1042</text>
+              <text class="tb" x="50" y="76" font-size="14" fill="var(--ink)">VPN not connecting</text>
+              <g class="swap-a">
+                <rect x="50" y="86" width="60" height="18" rx="9" fill="var(--signal)" /><text class="tm" x="80" y="99"
+                  font-size="11" fill="#0B0F16" text-anchor="middle">OPEN</text>
+              </g>
+              <g class="swap-b">
+                <rect x="50" y="86" width="88" height="18" rx="9" fill="var(--ok)" /><text class="tm" x="94" y="99"
+                  font-size="11" fill="#0B0F16" text-anchor="middle">RESOLVED</text>
+              </g>
+              <g transform="rotate(6 225 316)">
+                <g class="bob">
+                  <use href="#pa" x="170" y="173" width="110" height="143" />
+                </g>
+              </g>
+              <use href="#pb" x="512" y="186" width="100" height="130"
+                style="--skin:#C98B63;--skin-shade:#B87850;--hair:#3B2A20;--blazer:#6A7FA8;--shirt:#FFFFFF" />
+              <rect x="330" y="296" width="290" height="20" rx="5" fill="var(--desk)" />
+              <rect x="398" y="284" width="104" height="12" rx="3" fill="var(--desk-dark)" />
+              <rect class="mon" x="410" y="218" width="80" height="66" rx="4" />
+              <path class="swap-a" d="M436 237L464 265M464 237L436 265" fill="none" stroke="#FF8456" stroke-width="5"
+                stroke-linecap="round" />
+              <path class="swap-b" d="M434 252L446 264L468 238" fill="none" stroke="#3DD598" stroke-width="5"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <g class="swap-a">
+                <rect x="470" y="96" width="150" height="40" rx="12" fill="var(--panel)" stroke="var(--panel-line)"
+                  stroke-width="1.5" />
+                <path d="M534 135L544 152L554 135Z" fill="var(--panel)" />
+                <text class="tb" x="545" y="121" font-size="13" fill="var(--ink)" text-anchor="middle">My VPN won't
+                  connect</text>
+              </g>
+              <g class="swap-b">
+                <rect x="470" y="96" width="150" height="40" rx="12" fill="var(--accent-soft)" stroke="var(--accent)"
+                  stroke-width="1.5" />
+                <path d="M534 135L544 152L554 135Z" fill="var(--accent-soft)" />
+                <text class="tb" x="545" y="121" font-size="13" fill="var(--ink)" text-anchor="middle">It works! Thank
+                  you</text>
+              </g>
+              <g transform="translate(306 170)">
+                <g class="pop" style="--d:3.6s">
+                  <path d="M0 6C-10 -6 -22 6 0 24C22 6 10 -6 0 6Z" fill="var(--signal)" />
+                </g>
+              </g>
+              <rect y="316" width="640" height="84" fill="var(--floor)" />
+              <rect x="528" y="330" width="88" height="34" rx="7" fill="#18233A" stroke="var(--panel-line)"
+                stroke-width="1" />
+              <image href="work exp_logos/Logo-MFEC-More-04.png" x="538" y="335" width="68" height="24"
+                preserveAspectRatio="xMidYMid meet" />
+            </svg>
+
+            <!-- Scene 3: cloud -->
+            <svg class="scene" data-scene="3" viewBox="0 0 640 400" role="img"
+              aria-label="Kim working in a cloud environment connected to remote users and business applications"
+              hidden>
+              <rect width="640" height="400" fill="var(--scene-bg)" />
+              <g class="flow" fill="none" stroke="var(--accent)" stroke-width="2" opacity=".75">
+                <path d="M300 128Q200 130 104 168" />
+                <path d="M364 128Q460 130 548 168" />
+                <path d="M372 134Q430 170 470 214" />
+                <path d="M332 140L350 256" />
+              </g>
+              <circle r="4.5" fill="var(--accent)">
+                <animateMotion dur="2.4s" repeatCount="indefinite" path="M104 168Q200 130 300 128" />
+              </circle>
+              <circle r="4.5" fill="var(--accent)">
+                <animateMotion dur="2.4s" begin="0.8s" repeatCount="indefinite" path="M364 128Q460 130 548 168" />
+              </circle>
+              <circle r="4.5" fill="var(--accent)">
+                <animateMotion dur="2.4s" begin="1.4s" repeatCount="indefinite" path="M372 134Q430 170 470 214" />
+              </circle>
+              <circle r="4.5" fill="var(--accent)">
+                <animateMotion dur="2s" begin="0.4s" repeatCount="indefinite" path="M350 256L332 140" />
+              </circle>
+              <g style="filter:drop-shadow(0 3px 0 var(--panel-line))" fill="var(--panel)">
+                <circle cx="268" cy="98" r="34" />
+                <circle cx="322" cy="80" r="44" />
+                <circle cx="380" cy="98" r="34" />
+                <rect x="252" y="98" width="160" height="36" rx="18" />
+              </g>
+              <text class="td" x="332" y="90" font-size="17" font-weight="700" fill="var(--accent)" text-anchor="middle"
+                letter-spacing="1.5">CLOUD</text>
+              <text class="tm" x="332" y="119" font-size="12" fill="var(--ink)" text-anchor="middle">M365 · Azure AD ·
+                ERP</text>
+              <rect x="36" y="150" width="70" height="44" rx="4" fill="var(--panel)" stroke="var(--panel-line)"
+                stroke-width="2" />
+              <rect x="26" y="194" width="90" height="7" rx="3" fill="var(--desk)" />
+              <circle cx="71" cy="166" r="6" fill="var(--accent)" />
+              <path d="M60 187q11-15 22 0z" fill="var(--accent)" />
+              <text class="tb" x="71" y="222" font-size="12" fill="var(--muted)" text-anchor="middle">Remote user</text>
+              <rect x="548" y="150" width="38" height="66" rx="9" fill="var(--panel)" stroke="var(--panel-line)"
+                stroke-width="2" />
+              <circle cx="567" cy="176" r="6" fill="var(--accent)" />
+              <path d="M556 200q11-15 22 0z" fill="var(--accent)" />
+              <text class="tb" x="567" y="238" font-size="12" fill="var(--muted)" text-anchor="middle">Mobile</text>
+              <rect x="466" y="206" width="96" height="60" rx="4" fill="var(--panel)" stroke="var(--panel-line)"
+                stroke-width="2" />
+              <rect x="506" y="266" width="16" height="14" fill="var(--desk)" />
+              <rect x="494" y="280" width="40" height="5" rx="2" fill="var(--desk)" />
+              <rect x="478" y="220" width="52" height="6" rx="3" fill="var(--accent)" />
+              <rect x="478" y="234" width="72" height="6" rx="3" fill="var(--panel-line)" />
+              <rect x="478" y="248" width="40" height="6" rx="3" fill="var(--panel-line)" />
+              <text class="tb" x="514" y="302" font-size="12" fill="var(--muted)" text-anchor="middle">Business
+                apps</text>
+              <g class="bob">
+                <use href="#pa" x="190" y="173" width="110" height="143" />
+              </g>
+              <rect x="316" y="304" width="96" height="12" rx="3" fill="var(--desk-dark)" />
+              <rect class="mon" x="326" y="262" width="76" height="42" rx="4" />
+              <path d="M350 292a8 8 0 0 1 2-15a11 11 0 0 1 21 3a7 7 0 0 1 1 12z" fill="#6E97FF" />
+              <rect y="316" width="640" height="84" fill="var(--floor)" />
+              <rect x="524" y="330" width="92" height="34" rx="7" fill="#FFFFFF" stroke="var(--panel-line)"
+                stroke-width="1" />
+              <image href="work exp_logos/logo_cloudhm.png" x="532" y="334" width="76" height="26"
+                preserveAspectRatio="xMidYMid meet" />
+            </svg>
+            <!-- Scene 4: on-premise -->
+            <svg class="scene" data-scene="4" viewBox="0 0 640 400" role="img"
+              aria-label="Kim working in an on-premise office with Active Directory, a server rack, Windows computers and a printer"
+              hidden>
+              <rect width="640" height="400" fill="var(--scene-bg)" />
+              <rect class="mon" x="34" y="36" width="120" height="270" rx="6" />
+              <g class="rack"></g>
+              <path class="node" style="--d:.5s" d="M317 70V88M218 88H422M218 88V108M320 88V108M422 88V108" fill="none"
+                stroke="var(--panel-line)" stroke-width="2" />
+              <g class="node" style="--d:.2s">
+                <rect x="232" y="40" width="170" height="30" rx="8" fill="var(--accent)" /><text class="td" x="317"
+                  y="60" font-size="15" font-weight="600" fill="var(--on-accent)" text-anchor="middle">Active
+                  Directory</text>
+              </g>
+              <g class="node" style="--d:.8s">
+                <rect x="170" y="108" width="96" height="28" rx="7" fill="var(--panel)" stroke="var(--panel-line)"
+                  stroke-width="1.5" /><text class="tb" x="218" y="127" font-size="13" fill="var(--ink)"
+                  text-anchor="middle">Users</text>
+              </g>
+              <g class="node" style="--d:1s">
+                <rect x="272" y="108" width="96" height="28" rx="7" fill="var(--panel)" stroke="var(--panel-line)"
+                  stroke-width="1.5" /><text class="tb" x="320" y="127" font-size="13" fill="var(--ink)"
+                  text-anchor="middle">Computers</text>
+              </g>
+              <g class="node" style="--d:1.2s">
+                <rect x="374" y="108" width="96" height="28" rx="7" fill="var(--panel)" stroke="var(--panel-line)"
+                  stroke-width="1.5" /><text class="tb" x="422" y="127" font-size="13" fill="var(--ink)"
+                  text-anchor="middle">Shared folders</text>
+              </g>
+              <g class="node" style="--d:1.5s" fill="var(--accent)">
+                <circle cx="196" cy="160" r="7" />
+                <circle cx="218" cy="160" r="7" />
+                <circle cx="240" cy="160" r="7" />
+                <rect x="291" y="154" width="14" height="10" rx="2" />
+                <rect x="313" y="154" width="14" height="10" rx="2" />
+                <rect x="335" y="154" width="14" height="10" rx="2" />
+                <rect x="390" y="154" width="16" height="12" rx="2" />
+                <rect x="414" y="154" width="16" height="12" rx="2" />
+                <rect x="438" y="154" width="16" height="12" rx="2" />
+              </g>
+              <g class="bob">
+                <use href="#pa" x="262" y="186" width="110" height="143" />
+              </g>
+              <g class="paper">
+                <rect x="180" y="254" width="44" height="22" rx="2" fill="var(--shirt)" stroke="var(--panel-line)"
+                  stroke-width="1.5" />
+              </g>
+              <rect x="166" y="270" width="72" height="46" rx="6" fill="var(--panel)" stroke="var(--panel-line)"
+                stroke-width="2" />
+              <rect x="178" y="282" width="48" height="5" rx="2.5" fill="var(--panel-line)" />
+              <circle class="led" cx="224" cy="300" r="3" fill="var(--ok)" />
+              <rect class="mon" x="436" y="232" width="78" height="52" rx="4" />
+              <rect x="468" y="284" width="14" height="32" fill="var(--desk)" />
+              <rect class="mon" x="526" y="232" width="78" height="52" rx="4" />
+              <rect x="558" y="284" width="14" height="32" fill="var(--desk)" />
+              <g fill="#6E97FF">
+                <rect x="467" y="250" width="12" height="12" />
+                <rect x="482" y="250" width="12" height="12" />
+                <rect x="467" y="265" width="12" height="12" />
+                <rect x="482" y="265" width="12" height="12" />
+                <rect x="557" y="250" width="12" height="12" />
+                <rect x="572" y="250" width="12" height="12" />
+                <rect x="557" y="265" width="12" height="12" />
+                <rect x="572" y="265" width="12" height="12" />
+              </g>
+              <rect y="316" width="640" height="84" fill="var(--floor)" />
+              <rect x="524" y="330" width="92" height="34" rx="7" fill="#FFFFFF" stroke="var(--panel-line)"
+                stroke-width="1" />
+              <image href="work exp_logos/smfl.png" x="528" y="332" width="84" height="30"
+                preserveAspectRatio="xMidYMid meet" />
+            </svg>
+
+            <!-- Scene 5: new chapter -->
+            <svg class="scene" data-scene="5" viewBox="0 0 640 400" role="img"
+              aria-label="Kim walking through the glass doors of the D-ploy office to start a new chapter" hidden>
+              <rect width="640" height="400" fill="var(--scene-bg)" />
+              <circle cx="96" cy="84" r="54" fill="var(--signal)" opacity=".18" />
+              <circle cx="96" cy="84" r="32" fill="var(--signal)" />
+              <rect x="240" y="30" width="360" height="290" rx="10" fill="var(--panel)" stroke="var(--panel-line)"
+                stroke-width="2" />
+              <rect x="330" y="46" width="180" height="46" rx="10" fill="var(--accent)" />
+              <text class="td" x="420" y="79" font-size="28" font-weight="700" fill="var(--on-accent)"
+                text-anchor="middle" letter-spacing="-0.5">D-ploy</text>
+              <rect x="258" y="110" width="64" height="186" rx="6" fill="var(--glass)" stroke="var(--panel-line)"
+                stroke-width="2" />
+              <rect x="518" y="110" width="64" height="186" rx="6" fill="var(--glass)" stroke="var(--panel-line)"
+                stroke-width="2" />
+              <path d="M258 156H322M258 202H322M258 248H322M518 156H582M518 202H582M518 248H582"
+                stroke="var(--panel-line)" stroke-width="2" />
+              <rect x="340" y="110" width="160" height="206" fill="var(--accent-soft)" />
+              <rect x="352" y="252" width="60" height="8" rx="3" fill="var(--panel-line)" />
+              <rect x="432" y="266" width="56" height="8" rx="3" fill="var(--panel-line)" />
+              <rect x="358" y="214" width="34" height="38" rx="3" fill="var(--panel)" stroke="var(--panel-line)"
+                stroke-width="1.5" />
+              <g class="door-l">
+                <rect x="340" y="110" width="80" height="206" fill="var(--glass)" stroke="var(--panel-line)"
+                  stroke-width="2" />
+              </g>
+              <g class="door-r">
+                <rect x="420" y="110" width="80" height="206" fill="var(--glass)" stroke="var(--panel-line)"
+                  stroke-width="2" />
+              </g>
+              <path d="M160 316L166 288H196L202 316Z" fill="var(--desk)" />
+              <ellipse cx="170" cy="272" rx="8" ry="22" transform="rotate(-18 170 272)" fill="var(--ok)" />
+              <ellipse cx="192" cy="270" rx="8" ry="24" transform="rotate(18 192 270)" fill="var(--ok)" />
+              <ellipse cx="181" cy="264" rx="8" ry="26" fill="var(--ok)" />
+              <g class="walk">
+                <g class="bob">
+                  <use href="#pa" x="365" y="173" width="110" height="143" />
+                </g>
+              </g>
+              <g class="pop" style="--d:2.6s">
+                <rect x="36" y="150" width="140" height="30" rx="15" fill="var(--panel)" stroke="var(--accent)"
+                  stroke-width="2" /><text class="tm" x="106" y="170" font-size="12" font-weight="500"
+                  fill="var(--accent)" text-anchor="middle" letter-spacing="1">NEW CHAPTER</text>
+              </g>
+              <rect y="316" width="640" height="84" fill="var(--floor)" />
+              <text class="tm" x="616" y="352" font-size="12" fill="var(--muted)" text-anchor="end">D-PLOY</text>
+            </svg>
+
+            <!-- Scene 6: learning together -->
+            <svg class="scene" data-scene="6" viewBox="0 0 640 400" role="img"
+              aria-label="Kim in a meeting with international colleagues, greeting each other in different languages"
+              hidden>
+              <rect width="640" height="400" fill="var(--scene-bg)" />
+              <rect class="mon" x="230" y="26" width="180" height="92" rx="6" />
+              <rect x="246" y="42" width="70" height="7" rx="3" fill="#6E97FF" />
+              <rect x="246" y="58" width="56" height="6" rx="3" fill="#2C3A58" />
+              <rect x="246" y="72" width="64" height="6" rx="3" fill="#2C3A58" />
+              <rect x="246" y="86" width="48" height="6" rx="3" fill="#2C3A58" />
+              <g fill="#6E97FF">
+                <rect class="grow" style="--d:0s" x="338" y="90" width="12" height="18" />
+                <rect class="grow" style="--d:.3s" x="356" y="76" width="12" height="32" />
+                <rect class="grow" style="--d:.6s" x="374" y="82" width="12" height="26" />
+                <rect class="grow" style="--d:.9s" x="392" y="60" width="12" height="48" />
+              </g>
+              <use href="#pb" x="26" y="191" width="96" height="125"
+                style="--skin:#8D5A3B;--skin-shade:#7B4B30;--hair:#1B1411;--blazer:#3E6B8A;--shirt:#FFFFFF" />
+              <use href="#pc" x="130" y="191" width="96" height="125"
+                style="--skin:#F1C9A5;--skin-shade:#DDAF88;--hair:#C9A15B;--blazer:#7A4E6D;--shirt:#FFFFFF" />
+              <g class="bob">
+                <use href="#pa" x="265" y="173" width="110" height="143" />
+              </g>
+              <use href="#pb" x="404" y="191" width="96" height="125"
+                style="--skin:#E8B98F;--skin-shade:#D4A27A;--hair:#6B3F25;--blazer:#2F7F6B;--shirt:#FFFFFF" />
+              <use href="#pc" x="508" y="191" width="96" height="125"
+                style="--skin:#B97A52;--skin-shade:#A66A44;--hair:#1A1512;--blazer:#A65D3A;--shirt:#FFFFFF" />
+              <rect x="20" y="296" width="600" height="20" rx="6" fill="var(--desk)" />
+              <rect x="300" y="288" width="50" height="8" rx="2" fill="var(--accent)" />
+              <g class="pop" style="--d:.4s">
+                <rect x="14" y="130" width="96" height="30" rx="10" fill="var(--panel)" stroke="var(--panel-line)"
+                  stroke-width="1.5" />
+                <path d="M50 160L58 172L66 160Z" fill="var(--panel)" /><text class="tb" x="62" y="150" font-size="14"
+                  fill="var(--ink)" text-anchor="middle">สวัสดี</text>
+              </g>
+              <g class="pop" style="--d:1s">
+                <rect x="112" y="112" width="108" height="30" rx="10" fill="var(--panel)" stroke="var(--panel-line)"
+                  stroke-width="1.5" />
+                <path d="M160 142L168 154L176 142Z" fill="var(--panel)" /><text class="tb" x="166" y="132"
+                  font-size="14" fill="var(--ink)" text-anchor="middle">Hello</text>
+              </g>
+              <g class="pop" style="--d:1.6s">
+                <rect x="420" y="130" width="100" height="30" rx="10" fill="var(--panel)" stroke="var(--panel-line)"
+                  stroke-width="1.5" />
+                <path d="M462 160L470 172L478 160Z" fill="var(--panel)" /><text class="tb" x="470" y="150"
+                  font-size="14" fill="var(--ink)" text-anchor="middle">こんにちは</text>
+              </g>
+              <g class="pop" style="--d:2.2s">
+                <rect x="520" y="108" width="96" height="30" rx="10" fill="var(--panel)" stroke="var(--panel-line)"
+                  stroke-width="1.5" />
+                <path d="M560 138L568 150L576 138Z" fill="var(--panel)" /><text class="tb" x="568" y="128"
+                  font-size="14" fill="var(--ink)" text-anchor="middle">Xin chào</text>
+              </g>
+              <g class="pop" style="--d:2.9s">
+                <rect x="226" y="134" width="190" height="32" rx="10" fill="var(--accent-soft)" stroke="var(--accent)"
+                  stroke-width="1.5" />
+                <path d="M312 166L320 180L328 166Z" fill="var(--accent-soft)" /><text class="tb" x="321" y="155"
+                  font-size="14" fill="var(--ink)" text-anchor="middle">Nice to meet you!</text>
+              </g>
+              <rect y="316" width="640" height="84" fill="var(--floor)" />
+              <text class="tm" x="616" y="352" font-size="12" fill="var(--muted)" text-anchor="end">TEAM MEETING</text>
+            </svg>
+          </div>
+          <div class="years" aria-hidden="true">
+            <div class="year on" data-year="1">2019</div>
+            <div class="year" data-year="2">2021</div>
+            <div class="year" data-year="3">2022</div>
+            <div class="year" data-year="4">2024</div>
+            <div class="year" data-year="5">2026</div>
+            <div class="year" data-year="6">Next</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide s1 s-hobbies" id="slide-3" data-slide="3" aria-label="Slide 3, hobbies">
+        <div class="copy">
+          <div class="s1-text">
+            <div class="kick"><b>Slide 3</b> · Hobbies</div>
+            <h2>Outside of Work</h2>
+            <p>I love travelling and exploring new places.</p>
+            <p>I enjoy trying different food.</p>
+            <p>I like relaxing at cafes and hanging out with friends.</p>
+            <p>I also enjoy learning new languages.</p>
+            <ul class="chips">
+              <li>Travelling</li>
+              <li>Food</li>
+              <li>Cafes &amp; Friends</li>
+              <li>Languages</li>
+            </ul>
+          </div>
+        </div>
+        <div class="s1-visual">
+          <div class="hobby-grid">
+            <figure class="hobby-card tall">
+              <img src="S__41295877_0.jpg" alt="Travelling at Mon Bridge" style="object-position:center 40%">
+            </figure>
+            <figure class="hobby-card">
+              <img src="S__41295878_0.jpg" alt="Airplane view over the sea" style="object-position:center 55%">
+            </figure>
+            <figure class="hobby-card">
+              <img src="S__41295880_0.jpg" alt="Relaxing at a cafe at night" style="object-position:center 35%">
+            </figure>
+            <figure class="hobby-card">
+              <img src="S__41295879_0.jpg" alt="Exploring mountains and nature" style="object-position:center 30%">
+            </figure>
+            <figure class="hobby-card">
+              <img src="S__41295875.jpg" alt="Relaxing with cat" style="object-position:center 30%">
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide s1 s4" id="slide-4" data-slide="4" aria-label="Slide 4, closing">
+        <div class="copy">
+          <div class="s1-text">
+            <div class="kick"><b>Slide 4</b> · Closing</div>
+            <h2>Khob Khun Ka !</h2>
+            <p style="font-size:14px;opacity:.8">Thank you in Thai</p>
+          </div>
+        </div>
+        <div class="s1-visual">
+          <div class="scene-card">
+            <svg viewBox="0 0 640 400" width="100%" height="100%" style="display:block" role="img"
+              aria-label="Kim doing a traditional Thai wai and waving with a minimal Thai flag background and the message Thank you">
+              <rect width="640" height="400" fill="var(--scene-bg)" />
+
+              <!-- Minimal Thai Flag Backdrop Card -->
+              <g opacity=".85">
+                <rect x="70" y="42" width="500" height="234" rx="18" fill="var(--panel)" stroke="var(--panel-line)"
+                  stroke-width="1.5" />
+                <clipPath id="thai-flag-clip">
+                  <rect x="70" y="42" width="500" height="234" rx="18" />
+                </clipPath>
+                <g clip-path="url(#thai-flag-clip)" opacity=".22">
+                  <rect x="70" y="42" width="500" height="39" fill="#ED2939" />
+                  <rect x="70" y="81" width="500" height="39" fill="#FFFFFF" />
+                  <rect x="70" y="120" width="500" height="78" fill="#1B55F0" />
+                  <rect x="70" y="198" width="500" height="39" fill="#FFFFFF" />
+                  <rect x="70" y="237" width="500" height="39" fill="#ED2939" />
+                </g>
+              </g>
+
+              <!-- Speech Bubble: Thank you · ขอบคุณค่ะ -->
+              <g class="pop" style="--d:.2s">
+                <rect x="190" y="58" width="260" height="48" rx="14" fill="var(--panel)" stroke="var(--accent)"
+                  stroke-width="2" />
+                <path d="M310 106L320 122L330 106Z" fill="var(--panel)" stroke="var(--accent)" stroke-width="2"
+                  stroke-linejoin="round" />
+                <rect x="306" y="102" width="28" height="5" fill="var(--panel)" />
+                <text class="td" x="320" y="88" font-size="18" font-weight="600" fill="var(--ink)"
+                  text-anchor="middle">Thank you · ขอบคุณค่ะ</text>
+              </g>
+
+              <!-- Decorative minimal sparkles -->
+              <g class="bob" fill="var(--signal)">
+                <path d="M148 140C142 130 132 140 148 154C164 140 154 130 148 140Z" />
+              </g>
+              <g class="bob" style="animation-delay:1.2s" fill="var(--accent)">
+                <circle cx="496" cy="136" r="6" opacity=".7" />
+                <circle cx="516" cy="158" r="4" opacity=".45" />
+              </g>
+
+              <!-- Character Kim: Wai + Waving Greeting -->
+              <g class="wai-bow">
+                <use href="#pa" x="255" y="146" width="130" height="169" />
+                <!-- Pressed hands in Thai Wai gesture -->
+                <g class="wai-hands">
+                  <path d="M306 286L320 250L334 286Z" fill="var(--blazer)" />
+                  <path d="M320 232C316 238 314 252 315 260L320 262L325 260C326 252 324 238 320 232Z"
+                    fill="var(--skin,#F3CBA6)" stroke="#D9A782" stroke-width="1.2" stroke-linejoin="round" />
+                  <line x1="320" y1="234" x2="320" y2="260" stroke="#C9936E" stroke-width="1.2"
+                    stroke-linecap="round" />
+                </g>
+              </g>
+
+              <!-- Waving hand badge on the side -->
+              <g transform="translate(425 190)">
+                <g class="pop" style="--d:.45s">
+                  <circle cx="28" cy="28" r="26" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5" />
+                  <g class="wave-hand">
+                    <path
+                      d="M22 35C18 31 18 24 22 20L27 15C28.5 13.5 31 15.5 29.5 17.5L26 21L32 14C33.5 12.5 36 14.5 34.5 16.5L30 22L36 16C37.5 14.5 40 16.5 38.5 18.5L33 25L37 21C38.5 19.5 41 21.5 39.5 23.5L32 33C29 36.5 25 37.5 22 35Z"
+                      fill="var(--skin,#F3CBA6)" stroke="#C9936E" stroke-width="1.2" stroke-linejoin="round" />
+                  </g>
+                </g>
+              </g>
+
+              <!-- Floor & Footer Tag -->
+              <rect y="316" width="640" height="84" fill="var(--floor)" />
+              <text class="tm" x="616" y="352" font-size="12" fill="var(--muted)" text-anchor="end">THAILAND</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="rail" aria-label="Slide navigation">
+      <button class="nav" id="prev" type="button" aria-label="Previous step"><svg width="18" height="18"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M15 6l-6 6 6 6" />
+        </svg></button>
+      <div class="pills" id="pills"></div>
+      <span class="count" id="count"></span>
+      <button class="nav" id="next" type="button" aria-label="Next step"><svg width="18" height="18" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6-6 6" />
+        </svg></button>
+    </nav>
+  </div>
+  <script>
+    (function () {
+      var NS = 'http://www.w3.org/2000/svg';
+      var $ = function (q, r) { return (r || document).querySelector(q) };
+      var $$ = function (q, r) { return Array.prototype.slice.call((r || document).querySelectorAll(q)) };
+
+      /* steps: slide 2 has six scenes, every other slide is one step */
+      var steps = [{ s: 1 }, { s: 2, c: 1 }, { s: 2, c: 2 }, { s: 2, c: 3 }, { s: 2, c: 4 }, { s: 2, c: 5 }, { s: 2, c: 6 }, { s: 3 }, { s: 4 }];
+      var labels = { 1: 'Opening', 2: 'Work story', 3: 'Hobbies', 4: 'Closing' };
+      var i = 0;
+
+      /* build repeated SVG pieces */
+      $$('.dots').forEach(function (g) {
+        var c = +g.dataset.cols, r = +g.dataset.rows, x = +g.dataset.x, y = +g.dataset.y, s = +g.dataset.step, a = +g.dataset.alert;
+        for (var k = 0; k < c * r; k++) {
+          var e = document.createElementNS(NS, 'circle');
+          e.setAttribute('cx', x + (k % c) * s); e.setAttribute('cy', y + Math.floor(k / c) * s); e.setAttribute('r', 5.5);
+          if (k === a) { e.setAttribute('fill', '#FF8456'); e.setAttribute('class', 'alert-dot') }
+          else { e.setAttribute('fill', '#3DD598'); e.setAttribute('class', 'led'); e.style.animationDelay = ((k * 0.23) % 1.6) + 's' }
+          g.appendChild(e);
+        }
+      });
+      $$('.rack').forEach(function (g) {
+        for (var k = 0; k < 5; k++) {
+          var u = document.createElementNS(NS, 'g');
+          u.setAttribute('transform', 'translate(44 ' + (48 + k * 50) + ')');
+          u.innerHTML = '<rect width="100" height="40" rx="3" fill="#18233A"/>' +
+            '<circle class="led" cx="12" cy="14" r="3.5" fill="#3DD598" style="animation-delay:' + (k * 0.37) + 's"/>' +
+            '<circle class="led" cx="12" cy="27" r="3.5" fill="#6E97FF" style="animation-delay:' + (k * 0.53 + 0.2) + 's"/>' +
+            '<rect x="28" y="12" width="64" height="4" rx="2" fill="#2C3A58"/><rect x="28" y="24" width="64" height="4" rx="2" fill="#2C3A58"/>';
+          g.appendChild(u);
+        }
+      });
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        $$('svg.scene').forEach(function (s) { if (s.pauseAnimations) s.pauseAnimations() });
+      }
+
+      /* rail */
+      var pills = $('#pills'), pillEls = [];
+      [1, 2, 3, 4].forEach(function (n) {
+        var grp = document.createElement('div'); grp.className = 'grp';
+        steps.forEach(function (st, idx) {
+          if (st.s !== n) return;
+          var b = document.createElement('button'); b.type = 'button'; b.className = 'pill';
+          b.setAttribute('aria-label', 'Slide ' + n + (st.c ? ', scene ' + st.c : '') + ': ' + labels[n]);
+          b.addEventListener('click', function (e) { e.stopPropagation(); go(idx) });
+          grp.appendChild(b); pillEls[idx] = b;
+        });
+        pills.appendChild(grp);
+      });
+
+      function nameOf(st) { return st.c ? 'slide-2-scene-' + st.c : 'slide-' + st.s }
+      function fromHash() {
+        var h = location.hash.replace('#', '');
+        for (var k = 0; k < steps.length; k++) { if (nameOf(steps[k]) === h) return k }
+        return 0;
+      }
+      function render() {
+        var st = steps[i];
+        $$('.slide').forEach(function (el) { el.classList.toggle('on', +el.dataset.slide === st.s) });
+        $$('svg.scene').forEach(function (el) {
+          var on = !!(st.c && +el.dataset.scene === st.c);
+          el.classList.toggle('on', on);
+          if (on) el.removeAttribute('hidden'); else el.setAttribute('hidden', '');
+        });
+        $$('.stext').forEach(function (el) { el.hidden = !(st.c && +el.dataset.scene === st.c) });
+        $$('.year').forEach(function (el) { el.classList.toggle('on', st.c && +el.dataset.year === st.c) });
+        pillEls.forEach(function (p, idx) { p.classList.toggle('on', idx === i) });
+        $('#count').textContent = 'Slide ' + st.s + ' of 4';
+        $('#prev').disabled = i === 0;
+        $('#next').disabled = i === steps.length - 1;
+        try { history.replaceState(null, '', '#' + nameOf(st)) } catch (e) { }
+      }
+      function go(k) { i = Math.max(0, Math.min(steps.length - 1, k)); render() }
+
+      $('#prev').addEventListener('click', function (e) { e.stopPropagation(); go(i - 1) });
+      $('#next').addEventListener('click', function (e) { e.stopPropagation(); go(i + 1) });
+      $('#stage').addEventListener('click', function (e) { if (swiped || e.target.closest('button,a')) return; go(i + 1) });
+      document.addEventListener('keydown', function (e) {
+        var k = e.key, onBtn = e.target && e.target.closest && e.target.closest('button');
+        if (k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !onBtn)) { e.preventDefault(); go(i + 1) }
+        else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); go(i - 1) }
+        else if (k === 'Home') { go(0) } else if (k === 'End') { go(steps.length - 1) }
+      });
+      var x0 = null, swiped = false;
+      $('#stage').addEventListener('pointerdown', function (e) { x0 = e.clientX });
+      $('#stage').addEventListener('pointerup', function (e) {
+        if (x0 === null) return; var d = e.clientX - x0; x0 = null;
+        if (Math.abs(d) > 60) { swiped = true; setTimeout(function () { swiped = false }, 80); go(d < 0 ? i + 1 : i - 1) }
+      }, true);
+      window.addEventListener('hashchange', function () { var k = fromHash(); if (k !== i) { i = k; render() } });
+
+      i = fromHash(); render();
+    })();
+  </script>
+
+</body>
+
+</html>

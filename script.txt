@@ -1,0 +1,66 @@
+=========================================================
+PRESENTATION SCRIPT: HELLO D-PLOY (Kim - Sivaporn Phumimit)
+Style: Casual, Friendly, Simple English
+=========================================================
+
+[SLIDE 1: Opening] (Step 1/9)
+---------------------------------------------------------
+"Hi everyone! Nice to meet you all.
+My name is Sivaporn Phumimit, but you can just call me Kim.
+I live in Bangkok, Thailand. 
+I’m really excited and happy to join the team today!"
+
+
+[SLIDE 2: Work Story - Scene 1/6 (2019 – 2021: My First IT Job)] (Step 2/9)
+---------------------------------------------------------
+"Let me share a little bit about my work journey.
+I started my first IT job in 2019 at KBTG. 
+I worked in a 24/7 monitoring room, watching batch jobs and checking the network for ATMs, payment machines, and bank branches."
+
+
+[SLIDE 2: Work Story - Scene 2/6 (2021: Moving into IT Support)] (Step 3/9)
+---------------------------------------------------------
+"Then in 2021, I moved into IT Support.
+Instead of just watching screens, I started helping people directly. 
+For me, fixing a problem and seeing a coworker smile and get back to work is still the best part of my job!"
+
+
+[SLIDE 2: Work Story - Scene 3/6 (2022 – 2024: Cloud Experience)] (Step 4/9)
+---------------------------------------------------------
+"From 2022 to 2024, I worked at Cloud HM.
+Here, I got a lot of experience with cloud tools. 
+I helped users with Microsoft 365, Azure AD, and ERP systems, and also set up computers and fixed issues for remote staff."
+
+
+[SLIDE 2: Work Story - Scene 4/6 (2024 – 2026: On-Premise Experience)] (Step 5/9)
+---------------------------------------------------------
+"After that, I joined SMFL Leasing Thailand.
+I was the main IT support for over 85 people in the office. 
+I took care of everything from Active Directory, shared folders, Windows PCs, and printers to helping new staff on their first day. 
+I also worked closely with regional IT teams."
+
+
+[SLIDE 2: Work Story - Scene 5/6 (2026: A New Chapter at D-ploy)] (Step 6/9)
+---------------------------------------------------------
+"And now in 2026, I’m starting a new chapter here at D-ploy!
+I’m really happy to step into a modern, international company like this."
+
+
+[SLIDE 2: Work Story - Scene 6/6 (Next: Learning Together)] (Step 7/9)
+---------------------------------------------------------
+"Looking ahead, I can’t wait to work with all of you from different countries—joining meetings, sharing what I know, and learning new things from everyone."
+
+
+[SLIDE 3: Hobbies - Outside of Work] (Step 8/9)
+---------------------------------------------------------
+"Outside of work, I love travelling and exploring new places—whether it’s the sea or the mountains.
+I’m also a big fan of trying different kinds of food, relaxing at cafes, hanging out with friends, and playing with my cat!
+Oh, and I also enjoy learning new languages in my free time."
+
+
+[SLIDE 4: Closing] (Step 9/9)
+---------------------------------------------------------
+"That’s a quick story about me.
+'Khob Khun Ka!' — that means Thank you in Thai.
+Thank you for listening, and I look forward to working with you all!"
+
