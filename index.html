@@ -40,7 +40,7 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
   <style>
-    /* Layout: one full-height deck. Five click-through slides; slide 3 splits into copy (left) and an animated   card (right), stacked on narrow screens. A segmented rail at the bottom shows every step. */
+    /* Layout: one full-height deck. Five click-through slides; slide 3 splits into copy (left) and an animated scene card (right), stacked on narrow screens. A segmented rail at the bottom shows every step. */
     :root {
       --bg: #EEF1F5;
       --surface: #FFFFFF;
@@ -51,7 +51,7 @@
       --accent-soft: #DCE6FF;
       --signal: #F2622F;
       --ok: #16A36E;
-      -- -bg: #E3EAF5;
+      --scene-bg: #E3EAF5;
       --floor: #C7D1E1;
       --panel: #FFFFFF;
       --panel-line: #B3BFD2;
@@ -79,7 +79,7 @@
         --accent-soft: #1B2A52;
         --signal: #FF8456;
         --ok: #3DD598;
-        -- -bg: #151C2A;
+        --scene-bg: #151C2A;
         --floor: #0E141F;
         --panel: #1E2738;
         --panel-line: #34425C;
@@ -105,7 +105,7 @@
       --accent-soft: #1B2A52;
       --signal: #FF8456;
       --ok: #3DD598;
-      -- -bg: #151C2A;
+      --scene-bg: #151C2A;
       --floor: #0E141F;
       --panel: #1E2738;
       --panel-line: #34425C;
@@ -248,7 +248,7 @@
       border-radius: 18px;
       overflow: hidden;
       border: 1px solid var(--line);
-      background: var(-- -bg);
+      background: var(--scene-bg);
       box-shadow: 0 12px 32px -12px rgba(17, 21, 27, .14)
     }
 
@@ -337,7 +337,7 @@
       border-radius: 14px;
       overflow: hidden;
       border: 1px solid var(--line);
-      background: var(-- -bg);
+      background: var(--scene-bg);
       margin: 0
     }
 
@@ -526,8 +526,8 @@
       background: var(--surface)
     }
 
-    . -card {
-      background: var(-- -bg);
+    .scene-card {
+      background: var(--scene-bg);
       border: 1px solid var(--line);
       border-radius: 18px;
       overflow: hidden;
@@ -649,13 +649,13 @@
     }
 
     /* illustration */
-    .  {
+    .scene {
       display: none;
       width: 100%;
       height: 100%
     }
 
-    . .on {
+    .scene.on {
       display: block
     }
 
@@ -989,8 +989,8 @@
 
       <section class="slide s3" id="slide-2" data-slide="2" aria-label="Slide 2, work story">
         <div class="copy">
-          <div class="stext" data- ="1">
-            <div class="kick"><b>  1 / 6</b> · 2019 – 2021</div>
+          <div class="stext" data-scene="1">
+            <div class="kick"><b>Scene 1 / 6</b> · 2019 – 2021</div>
             <h2>My First IT Job</h2>
             <p>I started as a system operator at KBTG, watching batch jobs and the network behind ATMs, EDC terminals,
               branches and kiosks. The shifts ran 24/7.</p>
@@ -1000,8 +1000,8 @@
               <li>24/7 shifts</li>
             </ul>
           </div>
-          <div class="stext" data- ="2" hidden>
-            <div class="kick"><b>  2 / 6</b></div>
+          <div class="stext" data-scene="2" hidden>
+            <div class="kick"><b>Scene 2 / 6</b> · 2021</div>
             <h2>Moving into IT Support</h2>
             <p>I moved from watching screens to helping the people behind them. Fixing a problem and seeing a colleague
               get back to work is still my favorite part of the job.</p>
@@ -1011,8 +1011,8 @@
               <li>Helping people</li>
             </ul>
           </div>
-          <div class="stext" data- ="3" hidden>
-            <div class="kick"><b>  3 / 6</b> · 2022 – 2024</div>
+          <div class="stext" data-scene="3" hidden>
+            <div class="kick"><b>Scene 3 / 6</b> · 2022 – 2024</div>
             <h2>Cloud Experience</h2>
             <p>At Cloud HM I supported Microsoft 365 and Azure AD users, ERP systems and remote staff, from device setup
               to ticket-based incident fixes.</p>
@@ -1022,8 +1022,8 @@
               <li>ERP</li>
             </ul>
           </div>
-          <div class="stext" data- ="4" hidden>
-            <div class="kick"><b>  4 / 6</b> · 2024 – 2026</div>
+          <div class="stext" data-scene="4" hidden>
+            <div class="kick"><b>Scene 4 / 6</b> · 2024 – 2026</div>
             <h2>On-Premise Experience</h2>
             <p>At SMFL Leasing Thailand I was the primary IT support for 85+ users: Active Directory, shared folders,
               Windows PCs, printers, onboarding and offboarding, and work with regional IT teams.</p>
@@ -1033,8 +1033,8 @@
               <li>Hardware</li>
             </ul>
           </div>
-          <div class="stext" data- ="5" hidden>
-            <div class="kick"><b>  5 / 6</b> · 2026</div>
+          <div class="stext" data-scene="5" hidden>
+            <div class="kick"><b>Scene 5 / 6</b> · 2026</div>
             <h2>A New Chapter at D-ploy</h2>
             <p>Now I am stepping into a modern, international office and starting the next chapter of my career.</p>
             <ul class="chips">
@@ -1042,8 +1042,8 @@
               <li>New office</li>
             </ul>
           </div>
-          <div class="stext" data- ="6" hidden>
-            <div class="kick"><b>  6 / 6</b> · Next</div>
+          <div class="stext" data-scene="6" hidden>
+            <div class="kick"><b>Scene 6 / 6</b> · Next</div>
             <h2>Learning Together</h2>
             <p>I am looking forward to working with colleagues from different countries: joining meetings, sharing what
               I know, and learning from everyone.</p>
@@ -1056,11 +1056,11 @@
         </div>
 
         <div class="visual">
-          <div class=" -card">
-            <!--   1: monitoring room -->
-            <svg class=" " data- ="1" viewBox="0 0 640 400" role="img"
+          <div class="scene-card">
+            <!-- Scene 1: monitoring room -->
+            <svg class="scene" data-scene="1" viewBox="0 0 640 400" role="img"
               aria-label="Kim working as a system operator in a monitoring room, watching job charts, network status and alerts">
-              <rect width="640" height="400" fill="var(-- -bg)" />
+              <rect width="640" height="400" fill="var(--scene-bg)" />
               <clipPath id="cp3">
                 <rect x="440" y="62" width="150" height="82" />
               </clipPath>
@@ -1110,10 +1110,10 @@
                 preserveAspectRatio="xMidYMid meet" />
             </svg>
 
-            <!--   2: helping a colleague -->
-            <svg class=" " data- ="2" viewBox="0 0 640 400" role="img"
+            <!-- Scene 2: helping a colleague -->
+            <svg class="scene" data-scene="2" viewBox="0 0 640 400" role="img"
               aria-label="Kim helping a colleague fix a VPN problem, the ticket changes from open to resolved" hidden>
-              <rect width="640" height="400" fill="var(-- -bg)" />
+              <rect width="640" height="400" fill="var(--scene-bg)" />
               <rect x="36" y="34" width="176" height="76" rx="10" fill="var(--panel)" stroke="var(--panel-line)" />
               <text class="tm" x="50" y="56" font-size="11" fill="var(--muted)">TICKET #1042</text>
               <text class="tb" x="50" y="76" font-size="14" fill="var(--ink)">VPN not connecting</text>
@@ -1165,11 +1165,11 @@
                 preserveAspectRatio="xMidYMid meet" />
             </svg>
 
-            <!--   3: cloud -->
-            <svg class=" " data- ="3" viewBox="0 0 640 400" role="img"
+            <!-- Scene 3: cloud -->
+            <svg class="scene" data-scene="3" viewBox="0 0 640 400" role="img"
               aria-label="Kim working in a cloud environment connected to remote users and business applications"
               hidden>
-              <rect width="640" height="400" fill="var(-- -bg)" />
+              <rect width="640" height="400" fill="var(--scene-bg)" />
               <g class="flow" fill="none" stroke="var(--accent)" stroke-width="2" opacity=".75">
                 <path d="M300 128Q200 130 104 168" />
                 <path d="M364 128Q460 130 548 168" />
@@ -1230,11 +1230,11 @@
               <image href="work exp_logos/logo_cloudhm.png" x="532" y="334" width="76" height="26"
                 preserveAspectRatio="xMidYMid meet" />
             </svg>
-            <!--   4: on-premise -->
-            <svg class=" " data- ="4" viewBox="0 0 640 400" role="img"
+            <!-- Scene 4: on-premise -->
+            <svg class="scene" data-scene="4" viewBox="0 0 640 400" role="img"
               aria-label="Kim working in an on-premise office with Active Directory, a server rack, Windows computers and a printer"
               hidden>
-              <rect width="640" height="400" fill="var(-- -bg)" />
+              <rect width="640" height="400" fill="var(--scene-bg)" />
               <rect class="mon" x="34" y="36" width="120" height="270" rx="6" />
               <g class="rack"></g>
               <path class="node" style="--d:.5s" d="M317 70V88M218 88H422M218 88V108M320 88V108M422 88V108" fill="none"
@@ -1302,10 +1302,10 @@
                 preserveAspectRatio="xMidYMid meet" />
             </svg>
 
-            <!--   5: new chapter -->
-            <svg class=" " data- ="5" viewBox="0 0 640 400" role="img"
+            <!-- Scene 5: new chapter -->
+            <svg class="scene" data-scene="5" viewBox="0 0 640 400" role="img"
               aria-label="Kim walking through the glass doors of the D-ploy office to start a new chapter" hidden>
-              <rect width="640" height="400" fill="var(-- -bg)" />
+              <rect width="640" height="400" fill="var(--scene-bg)" />
               <circle cx="96" cy="84" r="54" fill="var(--signal)" opacity=".18" />
               <circle cx="96" cy="84" r="32" fill="var(--signal)" />
               <rect x="240" y="30" width="360" height="290" rx="10" fill="var(--panel)" stroke="var(--panel-line)"
@@ -1350,11 +1350,11 @@
               <text class="tm" x="616" y="352" font-size="12" fill="var(--muted)" text-anchor="end">D-PLOY</text>
             </svg>
 
-            <!--   6: learning together -->
-            <svg class=" " data- ="6" viewBox="0 0 640 400" role="img"
+            <!-- Scene 6: learning together -->
+            <svg class="scene" data-scene="6" viewBox="0 0 640 400" role="img"
               aria-label="Kim in a meeting with international colleagues, greeting each other in different languages"
               hidden>
-              <rect width="640" height="400" fill="var(-- -bg)" />
+              <rect width="640" height="400" fill="var(--scene-bg)" />
               <rect class="mon" x="230" y="26" width="180" height="92" rx="6" />
               <rect x="246" y="42" width="70" height="7" rx="3" fill="#6E97FF" />
               <rect x="246" y="58" width="56" height="6" rx="3" fill="#2C3A58" />
@@ -1471,10 +1471,10 @@
           </div>
         </div>
         <div class="s1-visual">
-          <div class=" -card">
+          <div class="scene-card">
             <svg viewBox="0 0 640 400" width="100%" height="100%" style="display:block" role="img"
               aria-label="Kim doing a traditional Thai wai and waving with a minimal Thai flag background and the message Thank you">
-              <rect width="640" height="400" fill="var(-- -bg)" />
+              <rect width="640" height="400" fill="var(--scene-bg)" />
 
               <!-- Minimal Thai Flag Backdrop Card -->
               <g opacity=".85">
@@ -1566,7 +1566,7 @@
       var $ = function (q, r) { return (r || document).querySelector(q) };
       var $$ = function (q, r) { return Array.prototype.slice.call((r || document).querySelectorAll(q)) };
 
-      /* steps: slide 2 has six  s, every other slide is one step */
+      /* steps: slide 2 has six scenes, every other slide is one step */
       var steps = [{ s: 1 }, { s: 2, c: 1 }, { s: 2, c: 2 }, { s: 2, c: 3 }, { s: 2, c: 4 }, { s: 2, c: 5 }, { s: 2, c: 6 }, { s: 3 }, { s: 4 }];
       var labels = { 1: 'Opening', 2: 'Work story', 3: 'Hobbies', 4: 'Closing' };
       var i = 0;
@@ -1594,7 +1594,7 @@
         }
       });
       if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        $$('svg. ').forEach(function (s) { if (s.pauseAnimations) s.pauseAnimations() });
+        $$('svg.scene').forEach(function (s) { if (s.pauseAnimations) s.pauseAnimations() });
       }
 
       /* rail */
@@ -1604,14 +1604,14 @@
         steps.forEach(function (st, idx) {
           if (st.s !== n) return;
           var b = document.createElement('button'); b.type = 'button'; b.className = 'pill';
-          b.setAttribute('aria-label', 'Slide ' + n + (st.c ? ',   ' + st.c : '') + ': ' + labels[n]);
+          b.setAttribute('aria-label', 'Slide ' + n + (st.c ? ', scene ' + st.c : '') + ': ' + labels[n]);
           b.addEventListener('click', function (e) { e.stopPropagation(); go(idx) });
           grp.appendChild(b); pillEls[idx] = b;
         });
         pills.appendChild(grp);
       });
 
-      function nameOf(st) { return st.c ? 'slide-2- -' + st.c : 'slide-' + st.s }
+      function nameOf(st) { return st.c ? 'slide-2-scene-' + st.c : 'slide-' + st.s }
       function fromHash() {
         var h = location.hash.replace('#', '');
         for (var k = 0; k < steps.length; k++) { if (nameOf(steps[k]) === h) return k }
@@ -1620,12 +1620,12 @@
       function render() {
         var st = steps[i];
         $$('.slide').forEach(function (el) { el.classList.toggle('on', +el.dataset.slide === st.s) });
-        $$('svg. ').forEach(function (el) {
-          var on = !!(st.c && +el.dataset.  === st.c);
+        $$('svg.scene').forEach(function (el) {
+          var on = !!(st.c && +el.dataset.scene === st.c);
           el.classList.toggle('on', on);
           if (on) el.removeAttribute('hidden'); else el.setAttribute('hidden', '');
         });
-        $$('.stext').forEach(function (el) { el.hidden = !(st.c && +el.dataset.  === st.c) });
+        $$('.stext').forEach(function (el) { el.hidden = !(st.c && +el.dataset.scene === st.c) });
         $$('.year').forEach(function (el) { el.classList.toggle('on', st.c && +el.dataset.year === st.c) });
         pillEls.forEach(function (p, idx) { p.classList.toggle('on', idx === i) });
         $('#count').textContent = 'Slide ' + st.s + ' of 4';
